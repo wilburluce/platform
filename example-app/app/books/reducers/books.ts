@@ -1,7 +1,11 @@
 import { createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Book } from '../models/book';
-import { BookActionsUnion, BookActionTypes } from '../actions/book';
+import {
+  BookActionsUnion,
+  BookActionTypes,
+  BookSearchComplete,
+} from '../actions/book';
 import {
   CollectionActionsUnion,
   CollectionActionTypes,
@@ -45,7 +49,7 @@ export function reducer(
   action: BookActionsUnion | CollectionActionsUnion
 ): State {
   switch (action.type) {
-    case BookActionTypes.SearchComplete:
+    case BookSearchComplete.type:
     case CollectionActionTypes.LoadSuccess: {
       /**
        * The addMany function provided by the created adapter

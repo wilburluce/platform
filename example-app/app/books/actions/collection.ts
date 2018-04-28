@@ -60,6 +60,7 @@ export class RemoveBookFail implements Action {
  */
 export class Load implements Action {
   readonly type = CollectionActionTypes.Load;
+  constructor(public payload?: any) {}
 }
 
 export class LoadSuccess implements Action {

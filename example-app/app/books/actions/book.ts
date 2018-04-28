@@ -1,10 +1,14 @@
 import { Action } from '@ngrx/store';
 import { Book } from '../models/book';
+import {
+  BaseAction,
+  BaseServiceAction,
+  ServiceActionConfig,
+  ServiceOperation,
+  ServicePhase,
+} from '../../shared/base.action';
 
 export enum BookActionTypes {
-  Search = '[Book] Search',
-  SearchComplete = '[Book] Search Complete',
-  SearchError = '[Book] Search Error',
   Load = '[Book] Load',
   Select = '[Book] Select',
 }
@@ -16,22 +20,36 @@ export enum BookActionTypes {
  *
  * See Discriminated Unions: https://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions
  */
-export class Search implements Action {
-  readonly type = BookActionTypes.Search;
-
-  constructor(public payload: string) {}
+const book = '[Book]';
+export class BookSearchRequest extends BaseServiceAction {
+  static readonly type = BaseAction.registerType(
+    new ServiceActionConfig(book, ServiceOperation.search, ServicePhase.request)
+  );
+  constructor(public payload: string) {
+    super(BookSearchRequest.type);
+  }
 }
 
-export class SearchComplete implements Action {
-  readonly type = BookActionTypes.SearchComplete;
-
-  constructor(public payload: Book[]) {}
+export class BookSearchComplete extends BaseServiceAction {
+  static readonly type = BaseAction.registerType(
+    new ServiceActionConfig(
+      book,
+      ServiceOperation.search,
+      ServicePhase.complete
+    )
+  );
+  constructor(public payload: Book[]) {
+    super(BookSearchComplete.type);
+  }
 }
 
-export class SearchError implements Action {
-  readonly type = BookActionTypes.SearchError;
-
-  constructor(public payload: string) {}
+export class BookSearchError extends BaseServiceAction {
+  static readonly type = BaseAction.registerType(
+    new ServiceActionConfig(book, ServiceOperation.search, ServicePhase.error)
+  );
+  constructor(public payload: string) {
+    super(BookSearchError.type);
+  }
 }
 
 export class Load implements Action {
@@ -51,8 +69,8 @@ export class Select implements Action {
  * so that reducers can easily compose action types
  */
 export type BookActionsUnion =
-  | Search
-  | SearchComplete
-  | SearchError
+  | BookSearchRequest
+  | BookSearchComplete
+  | BookSearchError
   | Load
   | Select;
