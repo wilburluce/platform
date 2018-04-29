@@ -1,11 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Book } from '../models/book';
-import {
-  BookActionsUnion,
-  BookActionTypes,
-  SearchComplete,
-} from '../actions/book';
+import * as BookActions from '../actions/book';
 import {
   CollectionActionsUnion,
   CollectionActionTypes,
@@ -46,10 +42,10 @@ export const initialState: State = adapter.getInitialState({
 
 export function reducer(
   state = initialState,
-  action: BookActionsUnion | CollectionActionsUnion
+  action: BookActions.BookActionsUnion | CollectionActionsUnion
 ): State {
   switch (action.type) {
-    case SearchComplete.type:
+    case BookActions.SearchComplete.type:
     case CollectionActionTypes.LoadSuccess: {
       /**
        * The addMany function provided by the created adapter
@@ -64,7 +60,7 @@ export function reducer(
       });
     }
 
-    case BookActionTypes.Load: {
+    case BookActions.Load.type: {
       /**
        * The addOne function provided by the created adapter
        * adds one record to the entity dictionary
@@ -78,7 +74,7 @@ export function reducer(
       });
     }
 
-    case BookActionTypes.Select: {
+    case BookActions.Select.type: {
       return {
         ...state,
         selectedBookId: action.payload,

@@ -16,7 +16,7 @@ import {
  */
 const actionGroupId = '[Book]';
 
-export class SearchRequest extends BaseAction {
+export class Search extends BaseAction {
   static readonly type = BaseAction.registerType(
     new ServiceActionConfig(
       actionGroupId,
@@ -25,7 +25,7 @@ export class SearchRequest extends BaseAction {
     )
   );
   constructor(public payload: string) {
-    super(SearchRequest.type);
+    super(Search.type);
   }
 }
 
@@ -78,7 +78,7 @@ export class Select extends BaseAction {
  * so that reducers can easily compose action types
  */
 export type BookActionsUnion =
-  | SearchRequest
+  | Search
   | SearchComplete
   | SearchError
   | Load
