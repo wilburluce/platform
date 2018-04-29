@@ -4,7 +4,7 @@ import { Book } from '../models/book';
 import {
   BookActionsUnion,
   BookActionTypes,
-  BookSearchComplete,
+  SearchComplete,
 } from '../actions/book';
 import {
   CollectionActionsUnion,
@@ -49,7 +49,7 @@ export function reducer(
   action: BookActionsUnion | CollectionActionsUnion
 ): State {
   switch (action.type) {
-    case BookSearchComplete.type:
+    case SearchComplete.type:
     case CollectionActionTypes.LoadSuccess: {
       /**
        * The addMany function provided by the created adapter

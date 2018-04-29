@@ -13,11 +13,7 @@ import {
 } from 'rxjs/operators';
 
 import { GoogleBooksService } from '../../core/services/google-books';
-import {
-  BookSearchRequest,
-  BookSearchComplete,
-  BookSearchError,
-} from '../actions/book';
+import { SearchRequest, SearchComplete, SearchError } from '../actions/book';
 import { Book } from '../models/book';
 
 export const SEARCH_DEBOUNCE = new InjectionToken<number>('Search Debounce');
@@ -40,7 +36,7 @@ export const SEARCH_SCHEDULER = new InjectionToken<Scheduler>(
 export class BookEffects {
   @Effect()
   search$: Observable<Action> = this.actions$.pipe(
-    ofType<BookSearchRequest>(BookSearchRequest.type),
+    ofType<SearchRequest>(SearchRequest.type),
     debounceTime(this.debounce || 300, this.scheduler || asyncScheduler),
     map(action => action.payload),
     switchMap(query => {
@@ -49,7 +45,7 @@ export class BookEffects {
       }
 
       const nextSearch$ = this.actions$.pipe(
-        ofType(BookSearchRequest.type),
+        ofType(SearchRequest.type),
         skip(1)
       );
 
@@ -57,8 +53,8 @@ export class BookEffects {
         .searchBooks(query)
         .pipe(
           takeUntil(nextSearch$),
-          map((books: Book[]) => new BookSearchComplete(books)),
-          catchError(err => of(new BookSearchError(err)))
+          map((books: Book[]) => new SearchComplete(books)),
+          catchError(err => of(new SearchError(err)))
         );
     })
   );

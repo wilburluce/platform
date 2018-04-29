@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Book } from '../models/book';
 import * as fromBooks from '../reducers';
-import { BookSearchRequest } from '../actions/book';
+import { SearchRequest } from '../actions/book';
 
 @Component({
   selector: 'bc-find-book-page',
@@ -28,6 +28,6 @@ export class FindBookPageComponent {
   }
 
   search(query: string) {
-    this.store.dispatch(new BookSearchRequest(query));
+    this.store.dispatch(new SearchRequest(query));
   }
 }

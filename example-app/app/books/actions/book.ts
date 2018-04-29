@@ -1,17 +1,11 @@
-import { Action } from '@ngrx/store';
 import { Book } from '../models/book';
 import {
+  ActionConfig,
   BaseAction,
-  BaseServiceAction,
   ServiceActionConfig,
   ServiceOperation,
   ServicePhase,
 } from '../../shared/base.action';
-
-export enum BookActionTypes {
-  Load = '[Book] Load',
-  Select = '[Book] Select',
-}
 
 /**
  * Every action is comprised of at least a type and an optional
@@ -20,48 +14,63 @@ export enum BookActionTypes {
  *
  * See Discriminated Unions: https://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions
  */
-const book = '[Book]';
-export class BookSearchRequest extends BaseServiceAction {
+const actionGroupId = '[Book]';
+
+export class SearchRequest extends BaseAction {
   static readonly type = BaseAction.registerType(
-    new ServiceActionConfig(book, ServiceOperation.search, ServicePhase.request)
+    new ServiceActionConfig(
+      actionGroupId,
+      ServiceOperation.search,
+      ServicePhase.request
+    )
   );
   constructor(public payload: string) {
-    super(BookSearchRequest.type);
+    super(SearchRequest.type);
   }
 }
 
-export class BookSearchComplete extends BaseServiceAction {
+export class SearchComplete extends BaseAction {
   static readonly type = BaseAction.registerType(
     new ServiceActionConfig(
-      book,
+      actionGroupId,
       ServiceOperation.search,
       ServicePhase.complete
     )
   );
   constructor(public payload: Book[]) {
-    super(BookSearchComplete.type);
+    super(SearchComplete.type);
   }
 }
 
-export class BookSearchError extends BaseServiceAction {
+export class SearchError extends BaseAction {
   static readonly type = BaseAction.registerType(
-    new ServiceActionConfig(book, ServiceOperation.search, ServicePhase.error)
+    new ServiceActionConfig(
+      actionGroupId,
+      ServiceOperation.search,
+      ServicePhase.error
+    )
   );
   constructor(public payload: string) {
-    super(BookSearchError.type);
+    super(SearchError.type);
   }
 }
 
-export class Load implements Action {
-  readonly type = BookActionTypes.Load;
-
-  constructor(public payload: Book) {}
+export class Load extends BaseAction {
+  static readonly type = BaseAction.registerType(
+    new ActionConfig(actionGroupId, 'load')
+  );
+  constructor(public payload: Book) {
+    super(Load.type);
+  }
 }
 
-export class Select implements Action {
-  readonly type = BookActionTypes.Select;
-
-  constructor(public payload: string) {}
+export class Select extends BaseAction {
+  static readonly type = BaseAction.registerType(
+    new ActionConfig(actionGroupId, 'select')
+  );
+  constructor(public payload: string) {
+    super(Select.type);
+  }
 }
 
 /**
@@ -69,8 +78,8 @@ export class Select implements Action {
  * so that reducers can easily compose action types
  */
 export type BookActionsUnion =
-  | BookSearchRequest
-  | BookSearchComplete
-  | BookSearchError
+  | SearchRequest
+  | SearchComplete
+  | SearchError
   | Load
   | Select;

@@ -1,9 +1,9 @@
 import {
   BookActionTypes,
   BookActionsUnion,
-  BookSearchRequest,
-  BookSearchComplete,
-  BookSearchError,
+  Search,
+  SearchComplete,
+  SearchError,
 } from '../actions/book';
 
 export interface State {
@@ -22,7 +22,7 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: BookActionsUnion): State {
   switch (action.type) {
-    case BookSearchRequest.type: {
+    case Search.type: {
       const query = action.payload;
 
       if (query === '') {
@@ -42,7 +42,7 @@ export function reducer(state = initialState, action: BookActionsUnion): State {
       };
     }
 
-    case BookSearchComplete.type: {
+    case SearchComplete.type: {
       return {
         ids: action.payload.map(book => book.id),
         loading: false,
@@ -51,7 +51,7 @@ export function reducer(state = initialState, action: BookActionsUnion): State {
       };
     }
 
-    case BookSearchError.type: {
+    case SearchError.type: {
       return {
         ...state,
         loading: false,
