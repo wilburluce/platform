@@ -44,10 +44,7 @@ export class BookEffects {
         return empty();
       }
 
-      const nextSearch$ = this.actions$.pipe(
-        ofType(Search.type),
-        skip(1)
-      );
+      const nextSearch$ = this.actions$.pipe(ofType(Search.type), skip(1));
 
       return this.googleBooks
         .searchBooks(query)

@@ -14,7 +14,10 @@ const initialState: State = {
   query: '',
 };
 
-export function reducer(state = initialState, action: book.BookActionsUnion): State {
+export function reducer(
+  state = initialState,
+  action: book.BookActionsUnion
+): State {
   switch (action.type) {
     case book.Search.type: {
       const query = (<book.Search>action).payload;

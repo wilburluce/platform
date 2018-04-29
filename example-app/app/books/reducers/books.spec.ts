@@ -9,11 +9,6 @@ describe('BooksReducer', () => {
   const book2 = { ...book1, id: '222' };
   const book3 = { ...book1, id: '333' };
   const initialState: fromBooks.State = {
-    ids: [book1.id, book2.id],
-    entities: {
-      [book1.id]: book1,
-      [book2.id]: book2,
-    },
     selectedBookId: null,
   };
 
